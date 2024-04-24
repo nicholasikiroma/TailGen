@@ -1,6 +1,8 @@
 import typer
 from typing import Optional
 from tailgen import __app_name__, __version__, VALID_FRAMEWORKS
+from .config import _init_project_directory, _create_and_activate_venv
+from pathlib import Path
 
 app = typer.Typer()
 
@@ -63,3 +65,14 @@ def init(
         f"Initializing {framework} project named {project_name} with Tailwind CSS {tailwind_version}",
         fg=typer.colors.GREEN,
     )
+    typer.secho(f"Creating project directory", fg=typer.colors.GREEN)
+    if output_dir:
+        project_path = Path(output_dir).expanduser().resolve()
+    else:
+        project_name = Path.cwd()
+
+    project_dir_path = _init_project_directory(project_path, project_name)
+
+    typer.secho(f"Create and activate virtual environment", fg=typer.colors.GREEN)
+    # To-do: Create and activate virtual environment
+    _create_and_activate_venv(project_dir_path)
