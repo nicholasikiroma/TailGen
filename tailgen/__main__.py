@@ -1,6 +1,6 @@
 """TailGen entry point script"""
 
-from tailgen import __app_name__
+from tailgen import __app_name__, cli
 
 
 def main():

@@ -46,7 +46,3 @@ Contributions to TailGen are welcome! If you have ideas for new features, improv
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to customize this README to fit your project's specific needs and requirements. If you have any questions or need further assistance, don't hesitate to ask!
