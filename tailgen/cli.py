@@ -1,12 +1,8 @@
 import typer
 from typing import Optional
 from tailgen import __app_name__, __version__, VALID_FRAMEWORKS
-from .config import (
-    _init_project_directory,
-    _create_and_activate_venv,
-    _create_flask_project,
-    _install_and_configure_tailwindcss,
-)
+from tailgen.flask_app import _create_flask_project, _install_and_configure_tailwindcss
+from tailgen.helpers import _create_venv, _init_project_directory
 from pathlib import Path
 
 app = typer.Typer()
@@ -79,8 +75,8 @@ def init(
     project_dir_path = _init_project_directory(project_path, project_name)
 
     typer.secho(f"Create and activate virtual environment", fg=typer.colors.GREEN)
-    # To-do: Create and activate virtual environment
-    _create_and_activate_venv(project_dir_path)
+
+    _create_venv(project_dir_path)
 
     if framework == "flask":
         _create_flask_project(project_dir_path)
