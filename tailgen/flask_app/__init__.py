@@ -1,7 +1,9 @@
 from pathlib import Path
 import subprocess
+from time import sleep
 import typer
 import shutil
+from tailgen import DELAY_DURATION
 from tailgen.helpers import _get_setup_paths
 
 package_path = _get_setup_paths()
@@ -9,7 +11,7 @@ package_path = _get_setup_paths()
 
 def _create_flask_project(project_dir: Path) -> None:
     """Create Flask Project"""
-
+    sleep(DELAY_DURATION)
     venv_dir = project_dir / "venv"
     install_process = subprocess.Popen(
         [str(venv_dir / "bin" / "pip"), "install", "flask"],
@@ -17,20 +19,19 @@ def _create_flask_project(project_dir: Path) -> None:
         stderr=subprocess.PIPE,
         universal_newlines=True,
     )
-
     typer.secho("Installing Flask...", fg=typer.colors.GREEN)
 
     while install_process.poll() is None:
         output = install_process.stdout.readline().strip()
         if output:
             typer.secho(output, fg=typer.colors.YELLOW)
-
+    sleep(DELAY_DURATION)
     errors = install_process.stderr.read().strip()
     if errors:
         raise RuntimeError(f"Error install Flask: {errors}", fg=typer.colors.RED)
-
+    sleep(DELAY_DURATION)
     typer.secho("Flask installed successfully.", fg=typer.colors.GREEN)
-
+    sleep(DELAY_DURATION)
     typer.secho("Creating base Flask application...", fg=typer.colors.GREEN)
     source = Path(package_path.flask) / "app.txt"
     destination = Path(project_dir) / "app.py"
@@ -38,7 +39,7 @@ def _create_flask_project(project_dir: Path) -> None:
         shutil.copyfile(source, destination)
     except Exception as e:
         raise Exception(f"Failed to create base Flask file: {e}")
-
+    sleep(DELAY_DURATION)
     typer.secho("Creating static and templates directories.", fg=typer.colors.GREEN)
     # create static/ and templates/
     (project_dir / "static").mkdir(exist_ok=True)
@@ -51,11 +52,14 @@ def _create_flask_project(project_dir: Path) -> None:
         shutil.copyfile(source, destination)
     except Exception as e:
         raise Exception(f"Failed to create base Flask file: {e}")
+    sleep(DELAY_DURATION)
     typer.secho("Completed Flask setup", fg=typer.colors.GREEN)
 
 
 def _install_and_configure_tailwindcss(project_dir: Path) -> None:
     """Install and configure Tailwind CSS"""
+
+    sleep(DELAY_DURATION)
     install_process = subprocess.Popen(
         ["npm", "install", "-D", "tailwindcss"],
         stdout=subprocess.PIPE,
@@ -64,16 +68,21 @@ def _install_and_configure_tailwindcss(project_dir: Path) -> None:
     )
     typer.secho("Installing Tailwind CSS...", fg=typer.colors.GREEN)
 
+    sleep(DELAY_DURATION)
     while install_process.poll() is None:
         output = install_process.stdout.readline().strip()
         if output:
             typer.secho(output, fg=typer.colors.BLUE)
 
+    sleep(DELAY_DURATION)
     errors = install_process.stderr.read().strip()
     if errors:
         raise RuntimeError(f"Error install Tailwind CSS: {errors}", fg=typer.colors.RED)
 
+    sleep(DELAY_DURATION)
     typer.secho("Tailwind CSS installed successfully.", fg=typer.colors.GREEN)
+
+    sleep(DELAY_DURATION)
     typer.secho("Creating Tailwind config file...", fg=typer.colors.GREEN)
 
     source = Path(package_path.flask) / "tailwind_config.txt"
@@ -83,6 +92,7 @@ def _install_and_configure_tailwindcss(project_dir: Path) -> None:
     except Exception as e:
         raise Exception(f"Failed to create base Flask file: {e}")
 
+    sleep(DELAY_DURATION)
     typer.secho("Creating file for input CSS", fg=typer.colors.GREEN)
 
     static_dir = project_dir / "static"
@@ -94,4 +104,5 @@ def _install_and_configure_tailwindcss(project_dir: Path) -> None:
 @tailwind utilities;
 """
         )
+    sleep(DELAY_DURATION)
     typer.secho("Completed tailwind config", fg=typer.colors.GREEN)

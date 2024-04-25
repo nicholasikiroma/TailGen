@@ -1,9 +1,10 @@
 import typer
 from typing import Optional
-from tailgen import __app_name__, __version__, VALID_FRAMEWORKS
+from tailgen import __app_name__, __version__, VALID_FRAMEWORKS, DELAY_DURATION
 from tailgen.flask_app import _create_flask_project, _install_and_configure_tailwindcss
 from tailgen.helpers import _create_venv, _init_project_directory
 from pathlib import Path
+from time import sleep
 
 app = typer.Typer()
 
@@ -62,10 +63,13 @@ def init(
     ),
 ) -> None:
     """Initialize a new Flask or FastAPI project with Tailwind CSS integration."""
+
+    sleep(DELAY_DURATION)
     typer.secho(
         f"Initializing {framework} project named {project_name} with Tailwind CSS {tailwind_version}",
         fg=typer.colors.GREEN,
     )
+    sleep(DELAY_DURATION)
     typer.secho(f"Creating project directory", fg=typer.colors.GREEN)
     if output_dir:
         project_path = Path(output_dir).expanduser().resolve()
@@ -74,10 +78,12 @@ def init(
 
     project_dir_path = _init_project_directory(project_path, project_name)
 
+    sleep(DELAY_DURATION)
     typer.secho(f"Create and activate virtual environment", fg=typer.colors.GREEN)
 
     _create_venv(project_dir_path)
 
+    sleep(DELAY_DURATION)
     if framework == "flask":
         _create_flask_project(project_dir_path)
         _install_and_configure_tailwindcss(project_dir_path)
