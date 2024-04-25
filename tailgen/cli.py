@@ -5,6 +5,7 @@ from .config import (
     _init_project_directory,
     _create_and_activate_venv,
     _create_flask_project,
+    _install_and_configure_tailwindcss,
 )
 from pathlib import Path
 
@@ -42,7 +43,7 @@ def main(
 @app.command()
 def init(
     project_name: str = typer.prompt(
-        "What is the project name?\n(Name of the project to initialize. Press enter to use 'new_project' as default.)",
+        "Provide a project name\n(Name of the project to initialize. Press enter to use default.)",
         default="new_project",
     ),
     framework: str = typer.Option(
@@ -83,6 +84,7 @@ def init(
 
     if framework == "flask":
         _create_flask_project(project_dir_path)
+        _install_and_configure_tailwindcss(project_dir_path)
 
     elif framework == "fastapi":
         raise NotImplementedError("Implementation is in progress")
