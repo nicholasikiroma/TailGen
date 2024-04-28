@@ -91,7 +91,14 @@ def _install_and_configure_tailwindcss_fastapi(project_dir: Path) -> None:
         task = progress.add_task("[blue]Installing Tailwind CSS...", total=1)
 
         install_process = subprocess.Popen(
-            ["npm", "install", "-D", "tailwindcss"],
+            [
+                "npm",
+                "install",
+                "tailwindcss",
+                "--prefix",
+                project_dir.as_posix(),
+                "--save-dev",
+            ],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,

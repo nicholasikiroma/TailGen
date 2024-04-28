@@ -9,7 +9,12 @@ from tailgen.fastapi_app import (
     _create_fastapi_project,
     _install_and_configure_tailwindcss_fastapi,
 )
-from tailgen.helpers import _create_venv, _init_project_directory
+from tailgen.helpers import (
+    _create_git_ignore,
+    _create_venv,
+    _git_init,
+    _init_project_directory,
+)
 
 app = typer.Typer()
 
@@ -44,10 +49,6 @@ def main(
 
 @app.command()
 def init(
-    project_name: str = typer.prompt(
-        "Provide a project name\n(Name of the project to initialize. Press enter to use default.)",
-        default="new_project",
-    ),
     framework: str = typer.Option(
         "flask",
         "--framework",
@@ -69,6 +70,10 @@ def init(
 ) -> None:
     """Initialize a new Flask or FastAPI project with Tailwind CSS integration."""
 
+    project_name: str = typer.prompt(
+        "Provide a project name\n(Name of the project to initialize. Press enter to use default.)",
+        default="new_project",
+    )
     sleep(DELAY_DURATION)
     typer.secho(
         f"Initializing {framework} project named {project_name} with Tailwind CSS {tailwind_version}",
@@ -84,9 +89,17 @@ def init(
     project_dir_path = _init_project_directory(project_path, project_name)
 
     sleep(DELAY_DURATION)
-    typer.secho(f"Create and activate virtual environment", fg=typer.colors.GREEN)
+    typer.secho(f"Create virtual environment", fg=typer.colors.GREEN)
 
     _create_venv(project_dir_path)
+    sleep(DELAY_DURATION)
+
+    typer.secho(f"Creating .gitignore file", fg=typer.colors.GREEN)
+    _create_git_ignore(project_dir_path)
+    sleep(DELAY_DURATION)
+
+    typer.secho("Initializing git", fg=typer.colors.GREEN)
+    _git_init(project_dir_path)
     sleep(DELAY_DURATION)
 
     if framework == "flask":

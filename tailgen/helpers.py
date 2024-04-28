@@ -4,6 +4,8 @@ import sys
 import os
 from collections import namedtuple
 
+import typer
+
 
 def _init_project_directory(project_path: Path, project_name: str) -> Path:
     """Create project directory"""
@@ -42,3 +44,58 @@ def _get_setup_paths():
         )
 
     return SetupPaths(flask=flask_setup_files, fastapi=fastapi_setup_files)
+
+
+def _create_git_ignore(project_dir: Path):
+    """create .gitignore file in project"""
+    try:
+        with open(project_dir / ".gitignore", "w") as f:
+            f.write(
+                """.idea
+.ipynb_checkpoints
+node_modules
+.mypy_cache
+.vscode
+__pycache__
+.pytest_cache
+htmlcov
+dist
+site
+.coverage
+coverage.xml
+.netlify
+test.db
+log.txt
+Pipfile.lock
+env3.*
+env
+docs_build
+site_build
+venv
+docs.zip
+archive.zip
+
+# vim temporary files
+*~
+.*.sw?
+.cache
+
+# macOS
+.DS_Store
+"""
+            )
+    except Exception as e:
+        typer.secho(f"Failed to create .gitignore file: {e}")
+
+
+def _git_init(project_dir: Path):
+    """Initialize project as git repo"""
+    try:
+        subprocess.Popen(
+            ["git", "init", project_dir.as_posix()],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+    except Exception as e:
+        typer.secho(f"Failed to initialize git repository: {e}", fg=typer.colors.RED)
