@@ -46,7 +46,7 @@ def _get_setup_paths():
     return SetupPaths(flask=flask_setup_files, fastapi=fastapi_setup_files)
 
 
-def _create_git_ignore(project_dir: Path):
+def _create_git_ignore(project_dir: Path) -> None:
     """create .gitignore file in project"""
     try:
         with open(project_dir / ".gitignore", "w") as f:
@@ -88,7 +88,7 @@ archive.zip
         typer.secho(f"Failed to create .gitignore file: {e}")
 
 
-def _git_init(project_dir: Path):
+def _git_init(project_dir: Path) -> None:
     """Initialize project as git repo"""
     try:
         subprocess.Popen(
@@ -99,3 +99,72 @@ def _git_init(project_dir: Path):
         )
     except Exception as e:
         typer.secho(f"Failed to initialize git repository: {e}", fg=typer.colors.RED)
+
+
+def _create_readme(project_dir: Path) -> None:
+    """Create default readme file for project"""
+    try:
+        with open(project_dir / "README.md", "w") as f:
+            f.write(
+                """# Project Title
+
+Simple overview of use/purpose.
+
+## Description
+
+An in-depth paragraph about your project and overview of use.
+
+## Getting Started
+
+### Dependencies
+
+* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
+* ex. Windows 10
+
+### Installing
+
+* How/where to download your program
+* Any modifications needed to be made to files/folders
+
+### Executing program
+
+* How to run the program
+* Step-by-step bullets
+```
+code blocks for commands
+```
+
+## Help
+
+Any advise for common problems or issues.
+```
+command to run if program contains helper info
+```
+
+## Authors
+
+Contributors names and contact info
+
+ex. Dominique Pizzie  
+ex. [@DomPizzie](https://twitter.com/dompizzie)
+
+## Version History
+
+* 0.2
+    * Various bug fixes and optimizations
+    * See [commit change]() or See [release history]()
+* 0.1
+    * Initial Release
+
+## License
+
+This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+
+## Acknowledgments
+
+Inspiration, code snippets, etc.
+"""
+            )
+
+    except Exception as e:
+        typer.secho(f"Failed to create readme file: {e}", fg=typer.colors.RED)

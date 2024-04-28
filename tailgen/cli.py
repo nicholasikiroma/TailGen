@@ -11,6 +11,7 @@ from tailgen.fastapi_app import (
 )
 from tailgen.helpers import (
     _create_git_ignore,
+    _create_readme,
     _create_venv,
     _git_init,
     _init_project_directory,
@@ -96,6 +97,10 @@ def init(
 
     typer.secho(f"Creating .gitignore file", fg=typer.colors.GREEN)
     _create_git_ignore(project_dir_path)
+    sleep(DELAY_DURATION)
+
+    typer.secho(f"Creating README.md file", fg=typer.colors.GREEN)
+    _create_readme(project_dir_path)
     sleep(DELAY_DURATION)
 
     typer.secho("Initializing git", fg=typer.colors.GREEN)
