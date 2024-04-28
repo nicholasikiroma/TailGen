@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "tailgen"
+version = "0.1.0"
+description = ""
+authors = ["Nicholas <nicholasikiroma@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = "^0.12.3"
+rich = "^13.7.1"
+pytest = "^8.2.0"
+
+[tool.poetry.scripts]
+tailgen = 'tailgen.__main__:main'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
