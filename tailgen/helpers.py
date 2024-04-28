@@ -29,16 +29,16 @@ def _get_setup_paths():
         # Running from the source directory
         package_path = os.path.dirname(os.path.abspath(__file__))
         flask_setup_files = os.path.join(package_path, "flask_app", "setup_files")
-        fastapi_setup_files = os.path.join(package_path, "fastapi", "setup_files")
+        fastapi_setup_files = os.path.join(package_path, "fastapi_app", "setup_files")
     else:
         # Running as an installed package
         import pkg_resources
 
         flask_setup_files = pkg_resources.resource_filename(
-            "tailgen.flask.setup_files", ""
+            "tailgen.flask_app.setup_files", ""
         )
         fastapi_setup_files = pkg_resources.resource_filename(
-            "tailgen.fastapi.setup_files", ""
+            "tailgen.fastapi_app.setup_files", ""
         )
 
     return SetupPaths(flask=flask_setup_files, fastapi=fastapi_setup_files)

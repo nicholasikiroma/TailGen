@@ -1,10 +1,15 @@
 import typer
 from typing import Optional
-from tailgen import __app_name__, __version__, VALID_FRAMEWORKS, DELAY_DURATION
-from tailgen.flask_app import _create_flask_project, _install_and_configure_tailwindcss
-from tailgen.helpers import _create_venv, _init_project_directory
 from pathlib import Path
 from time import sleep
+
+from tailgen import __app_name__, __version__, VALID_FRAMEWORKS, DELAY_DURATION
+from tailgen.flask_app import _create_flask_project, _install_and_configure_tailwindcss
+from tailgen.fastapi_app import (
+    _create_fastapi_project,
+    _install_and_configure_tailwindcss_fastapi,
+)
+from tailgen.helpers import _create_venv, _init_project_directory
 
 app = typer.Typer()
 
@@ -82,14 +87,15 @@ def init(
     typer.secho(f"Create and activate virtual environment", fg=typer.colors.GREEN)
 
     _create_venv(project_dir_path)
-
     sleep(DELAY_DURATION)
+
     if framework == "flask":
         _create_flask_project(project_dir_path)
         _install_and_configure_tailwindcss(project_dir_path)
 
     elif framework == "fastapi":
-        raise NotImplementedError("Implementation is in progress")
+        _create_fastapi_project(project_dir_path)
+        _install_and_configure_tailwindcss_fastapi(project_dir_path)
 
     else:
         raise ValueError("Invalid framework selected.")
