@@ -5,6 +5,35 @@ import os
 from collections import namedtuple
 
 import typer
+from rich import print
+from rich.panel import Panel
+from rich.console import Console
+from rich.text import Text
+
+console = Console()
+
+
+def setup_complete(framework: str):
+    title_text = Text("🎉 Setup Complete!", justify="center")
+    message_text = Text(
+        f"\nYour TailwindCSS setup with {framework} is ready to go! 🚀\n",
+        justify="center",
+        style="white",
+    )
+    next_steps = """
+    Next steps:
+    1. Start the development server and see the magic.
+    2. Customize your TailwindCSS config to suit your needs.
+    3. Build something awesome!
+    """
+
+    panel = Panel.fit(
+        message_text + next_steps,
+        title=title_text,
+        border_style="bright_magenta",
+        padding=(1, 10),
+    )
+    console.print(panel)
 
 
 def _init_project_directory(project_path: Path, project_name: str) -> Path:
@@ -15,7 +44,7 @@ def _init_project_directory(project_path: Path, project_name: str) -> Path:
 
 
 def _create_venv(project_dir_path: Path) -> None:
-    """Creates and activates a virtual environment based on OS"""
+    """Creates virtual environment"""
     try:
         venv_dir = project_dir_path / "venv"
         subprocess.run([sys.executable, "-m", "venv", str(venv_dir)], check=True)

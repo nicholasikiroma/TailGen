@@ -15,6 +15,7 @@ from tailgen.helpers import (
     _create_venv,
     _git_init,
     _init_project_directory,
+    setup_complete,
 )
 
 app = typer.Typer()
@@ -57,11 +58,6 @@ def init(
         help="Web framework to use (flask/fastapi)",
         callback=_valid_framework,
     ),
-    tailwind_version: str = typer.Option(
-        "2.2.19",
-        "--tailwind-version",
-        help="Tailwind CSS version to use. If not provided, the latest Tailwind CSS version is used.",
-    ),
     output_dir: str = typer.Option(
         ".",
         "--output-dir",
@@ -76,10 +72,12 @@ def init(
         default="new_project",
     )
     sleep(DELAY_DURATION)
+
     typer.secho(
-        f"Initializing {framework} project named {project_name} with Tailwind CSS {tailwind_version}",
+        f"Initializing {framework} project named {project_name} with the latest Tailwind CSS version.",
         fg=typer.colors.GREEN,
     )
+
     sleep(DELAY_DURATION)
     typer.secho(f"Creating project directory", fg=typer.colors.GREEN)
     if output_dir:
@@ -103,7 +101,7 @@ def init(
     _create_readme(project_dir_path)
     sleep(DELAY_DURATION)
 
-    typer.secho("Initializing git", fg=typer.colors.GREEN)
+    typer.secho("Initializing Git", fg=typer.colors.GREEN)
     _git_init(project_dir_path)
     sleep(DELAY_DURATION)
 
@@ -117,3 +115,5 @@ def init(
 
     else:
         raise ValueError("Invalid framework selected.")
+    sleep(DELAY_DURATION)
+    setup_complete(framework)

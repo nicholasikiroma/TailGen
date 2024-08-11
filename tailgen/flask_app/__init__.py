@@ -20,12 +20,15 @@ def _create_flask_project(project_dir: Path) -> None:
         stderr=subprocess.PIPE,
         universal_newlines=True,
     )
-    typer.secho("Installing Flask...", fg=typer.colors.GREEN)
+    typer.secho(
+        "Safely installing Flask and other python dependencies to virtual environment...",
+        fg=typer.colors.GREEN,
+    )
 
     while install_process.poll() is None:
         output = install_process.stdout.readline().strip()
         if output:
-            typer.secho(output, fg=typer.colors.YELLOW)
+            typer.secho(output, fg=typer.colors.BLUE)
     sleep(DELAY_DURATION)
     errors = install_process.stderr.read().strip()
     if errors:

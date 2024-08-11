@@ -10,6 +10,8 @@ TailGen is a command-line interface (CLI) tool designed to simplify the process 
 
 - **Cross-Platform Compatibility**: Works seamlessly on both Windows and Unix-like systems, providing a consistent experience for all users.
 
+- Git initialization
+
 ## Prerequisites
 
 Before using TailGen, ensure you have the following installed on your system:

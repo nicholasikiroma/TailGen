@@ -1,4 +1,4 @@
-"""TailGen entry point script"""
+"""TailGen entry point"""
 
 from tailgen import __app_name__, cli
 
