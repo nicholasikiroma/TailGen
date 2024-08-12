@@ -4,13 +4,13 @@ TailGen is a command-line interface (CLI) tool designed to simplify the process 
 
 ## Features
 
-- **Virtual Environment Management**: Automatically creates and activates a virtual environment for your project, ensuring isolated dependencies.
+- **Virtual Environment Management**: Automatically create a virtual environment for your project and downloads Python dependencies within the `venv` folder, ensuring isolated dependencies.
   
 - **Template Generation**: Generates Flask or FastAPI project templates with Tailwind CSS integration, including directory structures and starter code.
 
 - **Cross-Platform Compatibility**: Works seamlessly on both Windows and Unix-like systems, providing a consistent experience for all users.
 
-- Git initialization
+- **Git initialization**
 
 ## Prerequisites
 
@@ -39,7 +39,11 @@ To use TailGen, follow these steps:
    tailgen init
    ```
 
-3. Follow the on-screen instructions to select the project type (Flask or FastAPI) and complete the setup process.
+3. Run the following commands to see the options available for the `init` command:
+
+```bash
+tailgen init --help
+```
 
 ## Contributing
 

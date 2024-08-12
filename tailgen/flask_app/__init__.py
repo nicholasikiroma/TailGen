@@ -1,5 +1,6 @@
 from pathlib import Path
 import subprocess
+from sys import platform
 from time import sleep
 import typer
 import shutil
@@ -14,8 +15,13 @@ def _create_flask_project(project_dir: Path) -> None:
     """Create Flask Project"""
     sleep(DELAY_DURATION)
     venv_dir = project_dir / "venv"
+    pip_executable = (
+        "Scripts/pip.exe"
+        if platform.startswith("win32") or platform.startswith("cygwin")
+        else "bin/pip"
+    )
     install_process = subprocess.Popen(
-        [str(venv_dir / "bin" / "pip"), "install", "flask"],
+        [str(venv_dir / pip_executable), "install", "flask"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,
@@ -31,8 +37,17 @@ def _create_flask_project(project_dir: Path) -> None:
             typer.secho(output, fg=typer.colors.BLUE)
     sleep(DELAY_DURATION)
     errors = install_process.stderr.read().strip()
+
     if errors:
-        raise RuntimeError(f"Error install Flask: {errors}", fg=typer.colors.RED)
+        if "A new release of pip is available" in errors:
+            typer.secho(
+                "Notice: pip is outdated. Consider updating.", fg=typer.colors.RED
+            )
+
+        else:
+            error_message = f"Error installing Flask: {errors}"
+            raise RuntimeError(error_message)
+
     sleep(DELAY_DURATION)
     typer.secho("Flask installed successfully.", fg=typer.colors.GREEN)
     sleep(DELAY_DURATION)
@@ -42,7 +57,7 @@ def _create_flask_project(project_dir: Path) -> None:
     try:
         shutil.copyfile(source, destination)
     except Exception as e:
-        raise Exception(f"Failed to create base Flask file: {e}")
+        raise Exception(f"Failed to create base Flask file: {str(e)}")
     sleep(DELAY_DURATION)
     typer.secho("Creating static and templates directories.", fg=typer.colors.GREEN)
     # create static/ and templates/
@@ -55,7 +70,7 @@ def _create_flask_project(project_dir: Path) -> None:
     try:
         shutil.copyfile(source, destination)
     except Exception as e:
-        raise Exception(f"Failed to create base Flask file: {e}")
+        raise Exception(f"Failed to create base Flask file: {str(e)}")
     sleep(DELAY_DURATION)
     typer.secho("Completed Flask setup", fg=typer.colors.GREEN)
 
@@ -97,7 +112,7 @@ def _install_and_configure_tailwindcss(project_dir: Path) -> None:
     try:
         shutil.copyfile(source, destination)
     except Exception as e:
-        raise Exception(f"Failed to create base Flask file: {e}")
+        raise Exception(f"Failed to create base Flask file: {str(e)}")
 
     sleep(DELAY_DURATION)
 

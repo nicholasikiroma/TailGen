@@ -1,5 +1,6 @@
 from pathlib import Path
 import subprocess
+from sys import platform
 from time import sleep
 import typer
 import shutil
@@ -15,9 +16,15 @@ def _create_fastapi_project(project_dir: Path) -> None:
     sleep(DELAY_DURATION)
 
     venv_dir = project_dir / "venv"
+    pip_executable = (
+        "Scripts/pip.exe"
+        if platform.startswith("win32") or platform.startswith("cygwin")
+        else "bin/pip"
+    )
+
     install_process = subprocess.Popen(
         [
-            str(venv_dir / "bin" / "pip"),
+            str(venv_dir / pip_executable),
             "install",
             "fastapi",
             "Jinja2",
@@ -36,10 +43,16 @@ def _create_fastapi_project(project_dir: Path) -> None:
 
     sleep(DELAY_DURATION)
     errors = install_process.stderr.read().strip()
+
     if errors:
-        raise RuntimeError(
-            f"Error installing dependencies: {errors}", fg=typer.colors.RED
-        )
+        if "A new release of pip is available" in errors:
+            typer.secho(
+                "Notice: pip is outdated. Consider updating.", fg=typer.colors.RED
+            )
+
+        else:
+            error_message = f"Error installing Flask: {errors}"
+            raise RuntimeError(error_message)
 
     sleep(DELAY_DURATION)
 
@@ -59,7 +72,7 @@ def _create_fastapi_project(project_dir: Path) -> None:
         shutil.copyfile(source, destination)
 
     except Exception as e:
-        raise Exception(f"Failed to create base FastAPI file: {e}")
+        raise Exception(f"Failed to create base FastAPI file: {str(e)}")
 
     sleep(DELAY_DURATION)
 
@@ -77,7 +90,7 @@ def _create_fastapi_project(project_dir: Path) -> None:
         shutil.copyfile(source, destination)
 
     except Exception as e:
-        raise Exception(f"Failed to create base HTML file: {e}")
+        raise Exception(f"Failed to create base HTML file: {str(e)}")
 
     sleep(DELAY_DURATION)
 
@@ -121,7 +134,7 @@ def _install_and_configure_tailwindcss_fastapi(project_dir: Path) -> None:
     try:
         shutil.copyfile(source, destination)
     except Exception as e:
-        raise Exception(f"Failed to create base HTML file: {e}")
+        raise Exception(f"Failed to create base HTML file: {str(e)}")
 
     sleep(DELAY_DURATION)
 
