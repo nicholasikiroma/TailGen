@@ -20,11 +20,13 @@ def setup_complete(framework: str):
         justify="center",
         style="white",
     )
-    next_steps = """
+    next_steps = f"""
     Next steps:
-    1. Start the development server and see the magic.
-    2. Customize your TailwindCSS config to suit your needs.
-    3. Build something awesome!
+    1. Run command: `npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch` to build CSS from templates. 
+    2. Activate virtual environment
+    3. Start the development server and see the magic.
+    4. Customize your TailwindCSS config to suit your needs.
+    5. Build something awesome!
     """
 
     panel = Panel.fit(

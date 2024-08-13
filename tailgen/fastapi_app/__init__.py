@@ -26,9 +26,8 @@ def _create_fastapi_project(project_dir: Path) -> None:
         [
             str(venv_dir / pip_executable),
             "install",
-            "fastapi",
+            "fastapi[standard]",
             "Jinja2",
-            "uvicorn[standard]",
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
