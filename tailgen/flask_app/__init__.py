@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import subprocess
 from sys import platform
 from time import sleep
@@ -34,17 +35,25 @@ def _create_flask_project(project_dir: Path) -> None:
     while install_process.poll() is None:
         output = install_process.stdout.readline().strip()
         if output:
-            typer.secho(output, fg=typer.colors.BLUE)
+            typer.secho(output, fg=typer.colors.BRIGHT_MAGENTA)
     sleep(DELAY_DURATION)
     errors = install_process.stderr.read().strip()
 
     if errors:
-        if "A new release of pip is available" in errors:
+        # Regular expression to detect and match the pip update notice
+        pip_notice_pattern = r"\[?notice]?\s*A new release of pip.*?(\n|$)"
+
+        # Check if the pip update notice is present
+        if re.search(pip_notice_pattern, errors, re.IGNORECASE):
             typer.secho(
                 "Notice: pip is outdated. Consider updating.", fg=typer.colors.RED
             )
 
-        else:
+        # Remove the entire pip update notice from the error message
+        errors = re.sub(pip_notice_pattern, "", errors, flags=re.IGNORECASE).strip()
+
+        # If there are still errors after removing the pip notice, raise an exception
+        if errors:
             error_message = f"Error installing Flask: {errors}"
             raise RuntimeError(error_message)
 
