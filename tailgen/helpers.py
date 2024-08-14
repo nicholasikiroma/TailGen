@@ -131,14 +131,24 @@ archive.zip
 def _git_init(project_dir: Path) -> None:
     """Initialize project as git repo"""
     try:
-        subprocess.Popen(
-            ["git", "init", project_dir.as_posix()],
+        # Ensure project_dir is a string path compatible with the OS
+        result = subprocess.run(
+            ["git", "init", str(project_dir)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,
+            check=True,  # Raises CalledProcessError if git init fails
+        )
+
+        # Optionally, print the output for debugging purposes
+        typer.secho(result.stdout, fg=typer.colors.GREEN)
+
+    except subprocess.CalledProcessError as e:
+        typer.secho(
+            f"Failed to initialize git repository: {e.stderr}", fg=typer.colors.RED
         )
     except Exception as e:
-        typer.secho(f"Failed to initialize git repository: {e}", fg=typer.colors.RED)
+        typer.secho(f"Unexpected error: {e}", fg=typer.colors.RED)
 
 
 def _create_readme(project_dir: Path) -> None:

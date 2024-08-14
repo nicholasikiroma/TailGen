@@ -14,14 +14,11 @@ package_path = _get_setup_paths()
 
 def _create_fastapi_project(project_dir: Path) -> None:
     """Create FastAPI Project"""
-    sleep(DELAY_DURATION)
-
     venv_dir = project_dir / "venv"
-    pip_executable = "Scripts/pip.exe" if os.name == "nt" else "bin/pip"
-
+    pip_executable = venv_dir / ("Scripts/pip.exe" if os.name == "nt" else "bin/pip")
     install_process = subprocess.Popen(
         [
-            str(venv_dir / pip_executable),
+            str(pip_executable),
             "install",
             "fastapi[standard]",
             "Jinja2",
@@ -36,8 +33,9 @@ def _create_fastapi_project(project_dir: Path) -> None:
         output = install_process.stdout.readline().strip()
         if output:
             typer.secho(output, fg=typer.colors.BRIGHT_MAGENTA)
+        sleep(DELAY_DURATION)
 
-    sleep(DELAY_DURATION)
+    install_process.wait()
     errors = install_process.stderr.read().strip()
 
     if errors:
