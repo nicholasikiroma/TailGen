@@ -49,7 +49,9 @@ def _create_venv(project_dir_path: Path) -> None:
     """Creates virtual environment"""
     try:
         venv_dir = project_dir_path / "venv"
-        subprocess.run([sys.executable, "-m", "venv", str(venv_dir)], check=True)
+        subprocess.run(
+            [sys.executable, "-m", "venv", "--with-pip", str(venv_dir)], check=True
+        )
 
     except subprocess.CalledProcessError:
         raise Exception("Failed to create environment")

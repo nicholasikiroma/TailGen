@@ -45,16 +45,15 @@ def _create_fastapi_project(project_dir: Path) -> None:
     errors = install_process.stderr.read().strip()
 
     if errors:
-        # Regular expression to detect and match the pip update notice
-        pip_notice_pattern = r"\[?notice]?\s*A new release of pip.*?(\n|$)"
+        # Regular expression to match any notice that starts with "[notice]"
+        pip_notice_pattern = r"\[notice\].*?(\n|$)"
 
-        # Check if the pip update notice is present
         if re.search(pip_notice_pattern, errors, re.IGNORECASE):
             typer.secho(
                 "Notice: pip is outdated. Consider updating.", fg=typer.colors.RED
             )
 
-        # Remove the entire pip update notice from the error message
+        # Remove all pip notices from the error message
         errors = re.sub(pip_notice_pattern, "", errors, flags=re.IGNORECASE).strip()
 
         # If there are still errors after removing the pip notice, raise an exception

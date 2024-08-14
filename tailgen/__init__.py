@@ -4,7 +4,7 @@
 
 
 __app_name__ = "tailgen"
-__version__ = "1.0.7"
+__version__ = "1.1.1"
 
 
 VALID_FRAMEWORKS = {"flask", "fastapi"}
