@@ -1,7 +1,7 @@
+import os
 from pathlib import Path
 import re
 import subprocess
-from sys import platform
 from time import sleep
 import typer
 import shutil
@@ -17,11 +17,7 @@ def _create_fastapi_project(project_dir: Path) -> None:
     sleep(DELAY_DURATION)
 
     venv_dir = project_dir / "venv"
-    pip_executable = (
-        "Scripts/pip.exe"
-        if platform.startswith("win32") or platform.startswith("cygwin")
-        else "bin/pip"
-    )
+    pip_executable = "Scripts/pip.exe" if os.name == "nt" else "bin/pip"
 
     install_process = subprocess.Popen(
         [

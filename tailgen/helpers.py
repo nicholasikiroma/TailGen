@@ -49,9 +49,16 @@ def _create_venv(project_dir_path: Path) -> None:
     """Creates virtual environment"""
     try:
         venv_dir = project_dir_path / "venv"
-        subprocess.run(
-            [sys.executable, "-m", "venv", "--with-pip", str(venv_dir)], check=True
-        )
+        subprocess.run([sys.executable, "-m", "venv", str(venv_dir)], check=True)
+
+        # Determine the path to the Python executable in the virtual environment
+        if os.name == "nt":  # Windows
+            python_executable = venv_dir / "Scripts" / "python"
+        else:  # POSIX (Linux, macOS, etc.)
+            python_executable = venv_dir / "bin" / "python"
+
+        # Ensure pip is installed in the virtual environment
+        subprocess.run([str(python_executable), "-m", "ensurepip"], check=True)
 
     except subprocess.CalledProcessError:
         raise Exception("Failed to create environment")
