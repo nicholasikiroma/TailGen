@@ -100,31 +100,39 @@ def _create_fastapi_project(project_dir: Path) -> None:
 
 def _install_and_configure_tailwindcss_fastapi(project_dir: Path) -> None:
     """Install and configure Tailwind CSS"""
-
+    executable_cmd = "C:\\Program Files\\nodejs\\npm.cmd" if os.name == "nt" else "npm"
     with Progress() as progress:
         task = progress.add_task("[blue]Installing Tailwind CSS...", total=1)
 
+        # Run the npm install command with the appropriate prefix
         install_process = subprocess.Popen(
             [
-                "npm",
+                executable_cmd,
                 "install",
                 "tailwindcss",
-                "--prefix",
-                project_dir.as_posix(),
                 "--save-dev",
             ],
+            cwd=str(project_dir),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,
         )
 
+        # Update progress bar based on output
         for line in iter(install_process.stdout.readline, ""):
             progress.update(task, advance=1, color="red")
 
-        # Wait for the installation process to complete
-        install_process.communicate()
+        # Wait for the process to complete
+        install_process.wait()
 
-    typer.secho("Tailwind CSS installed successfully!", fg=typer.colors.GREEN)
+        # Check if there were any errors
+    errors = install_process.stderr.read().strip()
+    if errors:
+        typer.secho(
+            f"Errors occurred during installation: {errors}", fg=typer.colors.RED
+        )
+    else:
+        typer.secho("Tailwind CSS installed successfully!", fg=typer.colors.GREEN)
 
     sleep(DELAY_DURATION)
 
