@@ -16,6 +16,7 @@ from tailgen.helpers import (
     _git_init,
     _init_project_directory,
     setup_complete,
+    update_package_json_with_build_script,
 )
 
 app = typer.Typer()
@@ -83,7 +84,7 @@ def init(
     if output_dir:
         project_path = Path(output_dir).expanduser().resolve()
     else:
-        project_name = Path.cwd()
+        project_path = Path.cwd()
 
     project_dir_path = _init_project_directory(project_path, project_name)
 
@@ -115,4 +116,7 @@ def init(
 
     else:
         raise ValueError("Invalid framework selected.")
+    sleep(DELAY_DURATION)
+
+    update_package_json_with_build_script(project_dir_path)
     setup_complete(framework)

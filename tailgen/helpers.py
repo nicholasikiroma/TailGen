@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -22,7 +23,7 @@ def setup_complete(framework: str):
     )
     next_steps = f"""
     Next steps:
-    1. Run command: `npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch` to build CSS from templates. 
+    1. Build CSS from templates: npm run build 
     2. Activate virtual environment
     3. Start the development server and see the magic.
     4. Customize your TailwindCSS config to suit your needs.
@@ -218,3 +219,26 @@ Inspiration, code snippets, etc.
 
     except Exception as e:
         typer.secho(f"Failed to create readme file: {e}", fg=typer.colors.RED)
+
+
+def update_package_json_with_build_script(project_dir: Path):
+    package_json_path = project_dir / "package.json"
+
+    try:
+        build_cmd = (
+            "npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css"
+        )
+        with open(package_json_path, "r", encoding="utf-8") as file:
+            package_json = json.load(file)
+
+        if "scripts" not in package_json:
+            package_json["scripts"] = {}
+
+        package_json["scripts"]["build"] = build_cmd
+
+        with open(package_json_path, "w", encoding="utf-8") as file:
+            json.dump(package_json, file, indent=2)
+
+        typer.secho("Build script added to package.json", fg=typer.colors.GREEN)
+    except Exception as error:
+        typer.secho(f"Error updating package.json: {error}", fg=typer.colors.RED)

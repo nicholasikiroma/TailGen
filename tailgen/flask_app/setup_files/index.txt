@@ -8,6 +8,6 @@
     <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
 </head>
 <body>
-    <h1 class="text-blue-600">Created with TailGen</h1>
+    <h1 class="p-4 bg-blue-200">Hello World</h1>
 </body>
 </html>
