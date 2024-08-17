@@ -83,14 +83,14 @@ def _create_flask_project(project_dir: Path) -> None:
 
 def _install_and_configure_tailwindcss(project_dir: Path) -> None:
     """Install and configure Tailwind CSS"""
-
+    executable_cmd = "C:\\Program Files\\nodejs\\npm.cmd" if os.name == "nt" else "npm"
     with Progress() as progress:
         task = progress.add_task("[blue]Installing Tailwind CSS...", total=1)
 
         # Run the npm install command with the appropriate prefix
         install_process = subprocess.Popen(
             [
-                "npm",
+                executable_cmd,
                 "install",
                 "tailwindcss",
                 "--save-dev",
