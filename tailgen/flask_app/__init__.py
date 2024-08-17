@@ -56,7 +56,7 @@ def _create_flask_project(project_dir: Path) -> None:
 
     sleep(DELAY_DURATION)
     typer.secho("Flask installed successfully.", fg=typer.colors.GREEN)
-    sleep(DELAY_DURATION)
+
     typer.secho("Creating base Flask application...", fg=typer.colors.GREEN)
     source = Path(package_path.flask) / "app.txt"
     destination = Path(project_dir) / "app.py"
@@ -64,7 +64,7 @@ def _create_flask_project(project_dir: Path) -> None:
         shutil.copyfile(source, destination)
     except Exception as e:
         raise Exception(f"Failed to create base Flask file: {str(e)}")
-    sleep(DELAY_DURATION)
+
     typer.secho("Creating static and templates directories.", fg=typer.colors.GREEN)
     # create static/ and templates/
     (project_dir / "static").mkdir(exist_ok=True)
@@ -141,7 +141,4 @@ def _install_and_configure_tailwindcss(project_dir: Path) -> None:
 @tailwind utilities;
 """
         )
-
-    sleep(DELAY_DURATION)
-
     typer.secho("Completed tailwind config", fg=typer.colors.GREEN)

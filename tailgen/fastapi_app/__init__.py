@@ -56,17 +56,12 @@ def _create_fastapi_project(project_dir: Path) -> None:
             raise RuntimeError(error_message)
 
     sleep(DELAY_DURATION)
-
     typer.secho(
         "Fastapi[standard] and Jinja installed successfully.", fg=typer.colors.GREEN
     )
 
-    sleep(DELAY_DURATION)
-
     typer.secho("Creating base FastAPI application...", fg=typer.colors.GREEN)
-
     source = Path(package_path.fastapi) / "main.txt"
-
     destination = Path(project_dir) / "main.py"
 
     try:
@@ -76,7 +71,6 @@ def _create_fastapi_project(project_dir: Path) -> None:
         raise Exception(f"Failed to create base FastAPI file: {str(e)}")
 
     sleep(DELAY_DURATION)
-
     typer.secho("Creating static and templates directories.", fg=typer.colors.GREEN)
     # create static/ and templates/
     (project_dir / "static").mkdir(exist_ok=True)
@@ -92,8 +86,6 @@ def _create_fastapi_project(project_dir: Path) -> None:
 
     except Exception as e:
         raise Exception(f"Failed to create base HTML file: {str(e)}")
-
-    sleep(DELAY_DURATION)
 
     typer.secho("Completed FastAPI setup", fg=typer.colors.GREEN)
 
@@ -158,7 +150,5 @@ def _install_and_configure_tailwindcss_fastapi(project_dir: Path) -> None:
 @tailwind utilities;
 """
         )
-
-    sleep(DELAY_DURATION)
 
     typer.secho("Completed tailwind config", fg=typer.colors.GREEN)

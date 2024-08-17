@@ -115,5 +115,4 @@ def init(
 
     else:
         raise ValueError("Invalid framework selected.")
-    sleep(DELAY_DURATION)
     setup_complete(framework)
