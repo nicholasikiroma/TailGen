@@ -1,6 +1,6 @@
 # TailGen
 
-TailGen is a command-line interface (CLI) tool designed to simplify the process of generating Flask or FastAPI projects with Tailwind CSS integration. With TailGen, you can quickly set up a new web application project with the necessary files and directory structures, saving you time and effort in the initial setup phase.
+TailGen is a command-line interface (CLI) tool designed to simplify the process of generating Flask or FastAPI projects with Tailwind CSS integration. With TailGen, you can quickly set up a new web application project with the necessary files and directory structures, saving you time and effort in the initial setup phase. Checkout the [wiki]((https://github.com/nicholasikiroma/TailGen/wiki) for more details.
 
 ## Features
 
@@ -38,6 +38,7 @@ To use TailGen, follow these steps:
    ```bash
    tailgen init
    ```
+See the [Usage](https://github.com/nicholasikiroma/TailGen/wiki/usage) page for more details.
 
 3. Run the following commands to see the options available for the `init` command:
 
@@ -47,7 +48,7 @@ tailgen init --help
 
 ## Contributing
 
-Contributions to TailGen are welcome! If you have ideas for new features, improvements, or bug fixes, feel free to open an issue or submit a pull request.
+Contributions to TailGen are welcome! If you have ideas for new features, improvements, or bug fixes, feel free to open an issue or submit a pull request. See the [contributions](https://github.com/nicholasikiroma/TailGen/wiki/contributing.md) page for details.
 
 ## License
 
