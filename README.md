@@ -38,13 +38,14 @@ To use TailGen, follow these steps:
    ```bash
    tailgen init
    ```
-See the [Usage](https://github.com/nicholasikiroma/TailGen/wiki/usage) page for more details.
 
 3. Run the following commands to see the options available for the `init` command:
 
 ```bash
 tailgen init --help
 ```
+
+See the [Usage](https://github.com/nicholasikiroma/TailGen/wiki/usage) page for more details.
 
 ## Contributing
 
